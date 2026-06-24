@@ -31,6 +31,18 @@ def _softmax(x):
     return e / e.sum(axis=1, keepdims=True)
 
 
+_FOLD = str.maketrans({
+    "a": "a", "ą": "a", "ć": "c", "ę": "e", "ł": "l", "ń": "n", "ó": "o",
+    "ś": "s", "ź": "z", "ż": "z",
+})
+
+
+def normalize(text: str) -> str:
+    """Sprowadza tekst do ASCII-lowercase zgodnego ze slownikiem korpusu
+    (polskie znaki diakrytyczne -> ich odpowiedniki, male litery)."""
+    return text.lower().translate(_FOLD)
+
+
 class Adam:
     def __init__(self, params, lr=3e-3, b1=0.9, b2=0.999, eps=1e-8):
         self.p, self.lr, self.b1, self.b2, self.eps = params, lr, b1, b2, eps
@@ -72,6 +84,7 @@ class ResonanceLM:
 
     # ----------------------------------------------------------- dane
     def encode_text(self, text):
+        text = normalize(text)
         return np.array([self.stoi[c] for c in text if c in self.stoi])
 
     def make_batches(self, ids, batch, rng):
@@ -153,6 +166,7 @@ class ResonanceLM:
     # ----------------------------------------------------------- generacja
     def generate(self, prompt, length=200, temperature=0.8, seed=0):
         rng = np.random.default_rng(seed)
+        prompt = normalize(prompt)
         ids = list(self.encode_text(prompt))
         if not ids:
             ids = [0]

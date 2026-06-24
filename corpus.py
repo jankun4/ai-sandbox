@@ -20,6 +20,7 @@ TEXT = (
     "dojrzewa w doskonalosc. kazda liczba to inny wzorzec, inna twarz tej samej "
     "prawdy. zero milczy, jeden mowi jestem, dwa dzieli, trzy laczy, cztery "
     "porzadkuje, piec walczy, szesc dopelnia. i wszystko zaczyna sie od nowa. "
+    "liczby to 0 1 2 3 4 5 6. "
 )
 
 
